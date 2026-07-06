@@ -1,26 +1,33 @@
-// Import mongoose
-const mongoose = require("mongoose");
+// db.js
+// This file connects our Express app to MongoDB using Mongoose.
 
-require("dotenv").config();
+// Import mongoose so we can connect to MongoDB.
+import mongoose from "mongoose";
 
-// Create Async funtions to connect to the database
+// Create an async function to connect to the database.
 const connectDB = async () => {
-    try {
-        const mongoURI = process.env.MONGO_URI;
+  try {
+    // Get the MongoDB connection string from the .env file.
+    const mongoURI = process.env.MONGO_URI;
 
-        if (!mongoURI) {
-            throw new Error("MONGO_URI is missing from the .env file");
-        }
-
-        const conn = await mongoose.connect(mongoUI);
-
-        console.log(`Mongo Connected: ${conn.connection.host}`);
-
-    } catch (eror) {
-        console.error("Mongo connection error:", error.message);
-
-        process.exit(1);
+    // If the connection string is missing, show a helpful error.
+    if (!mongoURI) {
+      throw new Error("MONGODB_URI is missing from the .env file.");
     }
+
+    // Connect to MongoDB using Mongoose.
+    const conn = await mongoose.connect(mongoURI);
+
+    // Show a success message in the terminal.
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    // Show the error if the connection fails.
+    console.error("MongoDB connection error:", error.message);
+
+    // Stop the app if the database connection fails.
+    process.exit(1);
+  }
 };
 
-module.exports = connectDB;
+// Export the connectDB function so index.js can import it.
+export default connectDB;
