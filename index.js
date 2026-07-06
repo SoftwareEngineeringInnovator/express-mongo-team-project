@@ -1,13 +1,14 @@
-const express = require("express");
-const app = express();
+import express from "express";
+import productRoutes from "./routes/products.js";
 
-const productRoutes = require("./routes/products");
+const app = express();
 
 app.use(express.json());
 
-// connect routes
+// routes
 app.use("/products", productRoutes);
 
+// test route
 app.get("/", (req, res) => {
   res.send("Server Running");
 });
